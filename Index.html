@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toggle Wars App</title>
+</head>
+<body style="font-family:sans-serif;text-align:center;padding:40px">
+  <h1 id="headline">Loading...</h1>
+  <button id="cta">Sign Up Free</button>
+
+  <script>
+    const ENV_ID = "hTUke6CjBWEV5owZULZKoM";
+
+    let uid = localStorage.getItem("uid");
+    if (!uid) {
+      uid = "user_" + Math.random().toString(36).slice(2);
+      localStorage.setItem("uid", uid);
+    }
+
+    fetch("https://edge.api.flagsmith.com/api/v1/identities/?identifier=" + uid, {
+      headers: { "X-Environment-Key": ENV_ID }
+    })
+      .then(r => r.json())
+      .then(data => {
+        const f = data.flags.find(x => x.feature.name === "hero_headline");
+        document.getElementById("headline").textContent =
+          f && f.enabled ? f.feature_state_value : "Build your startup faster";
+      });
+
+    document.getElementById("cta").onclick = () => alert("Signed up!");
+  </script>
+</body>
+</html>
