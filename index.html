@@ -10,10 +10,11 @@
   html{scroll-behavior:smooth}
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--dark);line-height:1.5}
   nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;max-width:1000px;margin:0 auto}
-  .logo{font-weight:800;font-size:22px;color:var(--brand)}
+  .logo{font-weight:800;font-size:22px;color:var(--brand);cursor:pointer}
   nav a{margin-left:20px;color:var(--muted);text-decoration:none;font-size:15px}
   .btn{background:var(--brand);color:#fff;border:0;padding:14px 28px;border-radius:10px;font-size:17px;font-weight:600;cursor:pointer}
   .btn:hover{background:#4a2fd6}
+  .btn.ghost{background:#fff;color:var(--brand);border:2px solid var(--brand)}
   .hero{background:var(--bg);text-align:center;padding:64px 24px}
   .badge{display:inline-block;background:#e6e0ff;color:var(--brand);padding:6px 14px;border-radius:999px;font-size:14px;font-weight:600;margin-bottom:20px}
   h1{font-size:clamp(28px,6vw,48px);max-width:760px;margin:0 auto 16px;line-height:1.15}
@@ -30,67 +31,114 @@
   .final h2{margin-bottom:12px}
   .final p{color:#c9c6e8;margin-bottom:24px}
   footer{text-align:center;color:var(--muted);font-size:13px;padding:24px}
-  #modal{display:none;position:fixed;inset:0;background:rgba(20,18,43,.6);align-items:center;justify-content:center;padding:24px}
-  #modal .box{background:#fff;border-radius:16px;padding:32px;max-width:380px;text-align:center}
-  #modal h3{font-size:22px;margin-bottom:10px}
-  #modal p{color:var(--muted);margin-bottom:20px}
+
+  #builder{display:none;max-width:1100px;margin:0 auto;padding:24px}
+  #builder h2{text-align:left;margin-bottom:6px}
+  .welcome{color:var(--muted);margin-bottom:20px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  @media(max-width:800px){.cols{grid-template-columns:1fr}}
+  #form label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px}
+  #form input,#form textarea{width:100%;padding:10px;border:1px solid #d6d3ee;border-radius:8px;font:inherit;font-size:14px}
+  #form textarea{min-height:70px;resize:vertical}
+  .hint{font-size:12px;color:var(--muted);font-weight:400}
+  .actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+  #resume{border:1px solid #d6d3ee;border-radius:10px;padding:32px;background:#fff;box-shadow:0 4px 20px rgba(20,18,43,.08);min-height:520px;text-align:left}
+  #resume h3{font-size:26px;margin-bottom:2px}
+  #resume .contact{color:var(--muted);font-size:13px;margin-bottom:14px}
+  #resume h4{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--brand);border-bottom:1px solid #e5e3f5;padding-bottom:3px;margin:16px 0 6px}
+  #resume p,#resume li{font-size:14px}
+  #resume ul{padding-left:18px}
+
+  @media print{
+    nav,#landing,#form,.welcome,#builder h2,.actions,footer{display:none !important}
+    #builder{display:block !important;padding:0;max-width:none}
+    .cols{display:block}
+    #resume{border:0;box-shadow:none;padding:0}
+  }
   @media(max-width:600px){nav .links{display:none}}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">ResumeNest</div>
+  <div class="logo" id="logo">ResumeNest</div>
   <div class="links"><a href="#features">Features</a><a href="#how">How it works</a><a href="#start">Pricing</a></div>
 </nav>
 
-<div class="hero">
-  <span class="badge">Free for 30 days</span>
-  <h1 id="headline">Loading...</h1>
-  <p class="sub">Pick a template, fill in your details, and download a clean PDF resume. Made for students and freshers.</p>
-  <button class="btn cta">Sign Up Free</button>
-  <p class="note">30 days free. No credit card needed.</p>
+<div id="landing">
+  <div class="hero">
+    <span class="badge">Free for 30 days</span>
+    <h1 id="headline">Loading...</h1>
+    <p class="sub">Pick a template, fill in your details, and download a clean PDF resume. Made for students and freshers.</p>
+    <button class="btn cta">Sign Up Free</button>
+    <p class="note">30 days free. No credit card needed.</p>
+  </div>
+
+  <section id="features">
+    <h2>Everything a student needs</h2>
+    <div class="grid">
+      <div class="card"><h3>Student templates</h3><p>Layouts built for projects, internships and college achievements.</p></div>
+      <div class="card"><h3>ATS friendly</h3><p>Clean formatting that applicant tracking systems can read.</p></div>
+      <div class="card"><h3>One-click PDF</h3><p>Download a polished resume in seconds, ready to send.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <div class="grid">
+      <div class="card"><div class="num">1</div><h3>Sign up</h3><p>Create your free account in under a minute.</p></div>
+      <div class="card"><div class="num">2</div><h3>Fill in your details</h3><p>Add your education, projects and skills.</p></div>
+      <div class="card"><div class="num">3</div><h3>Download</h3><p>Export your resume and start applying.</p></div>
+    </div>
+  </section>
+
+  <div class="final" id="start">
+    <h2>Try ResumeNest free for 30 days</h2>
+    <p>Build, edit and download as many resumes as you need.</p>
+    <button class="btn cta">Sign Up Free</button>
+  </div>
 </div>
 
-<section id="features">
-  <h2>Everything a student needs</h2>
-  <div class="grid">
-    <div class="card"><h3>Student templates</h3><p>Layouts built for projects, internships and college achievements.</p></div>
-    <div class="card"><h3>ATS friendly</h3><p>Clean formatting that applicant tracking systems can read.</p></div>
-    <div class="card"><h3>One-click PDF</h3><p>Download a polished resume in seconds, ready to send.</p></div>
+<div id="builder">
+  <h2>Welcome to ResumeNest 🎉</h2>
+  <p class="welcome">Your 30-day free trial has started. Fill in your details and watch your resume update live.</p>
+  <div class="cols">
+    <div id="form">
+      <label>Full name</label><input id="f_name" placeholder="Eishu Jain">
+      <label>Email</label><input id="f_email" placeholder="you@example.com">
+      <label>Phone</label><input id="f_phone" placeholder="+91 98765 43210">
+      <label>Degree</label><input id="f_degree" placeholder="BCA">
+      <label>College</label><input id="f_college" placeholder="Your college name">
+      <label>Years / CGPA</label><input id="f_year" placeholder="2025 to 2028, CGPA 8.5">
+      <label>Short summary</label><textarea id="f_summary" placeholder="Aspiring web developer who enjoys building useful apps."></textarea>
+      <label>Skills <span class="hint">(separate with commas)</span></label><input id="f_skills" placeholder="HTML, CSS, JavaScript, React">
+      <label>Projects <span class="hint">(one per line)</span></label><textarea id="f_projects" placeholder="Toggle Wars app: A/B tested a landing page with Flagsmith"></textarea>
+      <label>Achievements / experience <span class="hint">(one per line)</span></label><textarea id="f_exp" placeholder="Registered for the Flagsmith Toggle Wars hackathon"></textarea>
+      <div class="actions">
+        <button class="btn" id="download">Download PDF</button>
+        <button class="btn ghost" id="back">Back to home</button>
+      </div>
+    </div>
+    <div id="resume">
+      <h3 id="r_name">Your Name</h3>
+      <div class="contact" id="r_contact">email | phone</div>
+      <div id="s_summary"><h4>Summary</h4><p id="r_summary"></p></div>
+      <div id="s_edu"><h4>Education</h4><p id="r_edu"></p></div>
+      <div id="s_skills"><h4>Skills</h4><p id="r_skills"></p></div>
+      <div id="s_projects"><h4>Projects</h4><ul id="r_projects"></ul></div>
+      <div id="s_exp"><h4>Achievements</h4><ul id="r_exp"></ul></div>
+    </div>
   </div>
-</section>
-
-<section id="how">
-  <h2>How it works</h2>
-  <div class="grid">
-    <div class="card"><div class="num">1</div><h3>Sign up</h3><p>Create your free account in under a minute.</p></div>
-    <div class="card"><div class="num">2</div><h3>Fill in your details</h3><p>Add your education, projects and skills.</p></div>
-    <div class="card"><div class="num">3</div><h3>Download</h3><p>Export your resume and start applying.</p></div>
-  </div>
-</section>
-
-<div class="final" id="start">
-  <h2>Try ResumeNest free for 30 days</h2>
-  <p>Build, edit and download as many resumes as you need.</p>
-  <button class="btn cta">Sign Up Free</button>
 </div>
 
 <footer>
-  Demo project for the Flagsmith Toggle Wars hackathon. No real accounts are created.<br>
+  Demo project for the Flagsmith Toggle Wars hackathon. No real accounts are created, and your resume stays in your browser.<br>
   <span id="variant"></span>
 </footer>
 
-<div id="modal">
-  <div class="box">
-    <h3>You're in! 🎉</h3>
-    <p>Your 30-day free trial would start now. This is a demo, so no account was created.</p>
-    <button class="btn" id="close">Close</button>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/@flagsmith/flagsmith@12.4.0/index.js"></script>
 <script>
+  // ---------- Flagsmith experiment (unchanged) ----------
   const A = "Build a professional resume in 10 minutes";
   const B = "Land your first internship with a resume recruiters notice";
   const headline = document.getElementById("headline");
@@ -121,15 +169,74 @@
     });
   }
 
+  // ---------- Resume builder ----------
+  const $ = id => document.getElementById(id);
+  const fields = ["f_name","f_email","f_phone","f_degree","f_college","f_year","f_summary","f_skills","f_projects","f_exp"];
+  const lines = s => s.split("\n").map(x => x.trim()).filter(Boolean);
+
+  function setText(sectionId, textId, text) {
+    $(textId).textContent = text;
+    $(sectionId).style.display = text ? "block" : "none";
+  }
+  function setList(sectionId, listId, items) {
+    const ul = $(listId);
+    ul.innerHTML = "";
+    items.forEach(t => {
+      const li = document.createElement("li");
+      li.textContent = t;
+      ul.appendChild(li);
+    });
+    $(sectionId).style.display = items.length ? "block" : "none";
+  }
+
+  function render() {
+    const v = id => $(id).value.trim();
+    $("r_name").textContent = v("f_name") || "Your Name";
+    $("r_contact").textContent = [v("f_email"), v("f_phone")].filter(Boolean).join("  |  ") || "email | phone";
+    setText("s_summary", "r_summary", v("f_summary"));
+    setText("s_edu", "r_edu", [v("f_degree"), v("f_college"), v("f_year")].filter(Boolean).join(", "));
+    setText("s_skills", "r_skills", v("f_skills"));
+    setList("s_projects", "r_projects", lines($("f_projects").value));
+    setList("s_exp", "r_exp", lines($("f_exp").value));
+    try {
+      const data = {};
+      fields.forEach(f => data[f] = $(f).value);
+      localStorage.setItem("resume_data", JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function loadSaved() {
+    try {
+      const data = JSON.parse(localStorage.getItem("resume_data") || "{}");
+      fields.forEach(f => { if (data[f]) $(f).value = data[f]; });
+    } catch (e) {}
+  }
+
+  function showBuilder() {
+    $("landing").style.display = "none";
+    $("builder").style.display = "block";
+    loadSaved();
+    render();
+    window.scrollTo(0, 0);
+  }
+  function showLanding() {
+    $("builder").style.display = "none";
+    $("landing").style.display = "block";
+    window.scrollTo(0, 0);
+  }
+
+  fields.forEach(f => $(f).addEventListener("input", render));
+  $("download").onclick = () => window.print();
+  $("back").onclick = showLanding;
+  $("logo").onclick = showLanding;
+
+  // Every Sign Up button records the experiment event, then opens the builder
   document.querySelectorAll(".cta").forEach(btn => {
     btn.onclick = () => {
       if (typeof flagsmith !== "undefined") flagsmith.trackEvent("signup_click");
-      document.getElementById("modal").style.display = "flex";
+      showBuilder();
     };
   });
-  document.getElementById("close").onclick = () => {
-    document.getElementById("modal").style.display = "none";
-  };
 </script>
 </body>
 </html>
