@@ -7,9 +7,13 @@
 <body style="font-family:sans-serif;text-align:center;padding:40px">
   <h1 id="headline">Loading...</h1>
   <button id="cta">Sign Up Free</button>
+  <p id="debug" style="color:gray;font-size:12px"></p>
 
+  <script src="https://cdn.jsdelivr.net/npm/@flagsmith/flagsmith@12.4.0/index.js"></script>
   <script>
-    const ENV_ID = "hTUke6CjBWEV5owZULZKoM";
+    const A = "Build your startup faster";
+    const B = "Launch your idea in 24 hours";
+    const debug = document.getElementById("debug");
 
     let uid = localStorage.getItem("uid");
     if (!uid) {
@@ -17,17 +21,29 @@
       localStorage.setItem("uid", uid);
     }
 
-    fetch("https://edge.api.flagsmith.com/api/v1/identities/?identifier=" + uid, {
-      headers: { "X-Environment-Key": ENV_ID }
-    })
-      .then(r => r.json())
-      .then(data => {
-        const f = data.flags.find(x => x.feature.name === "hero_headline");
-        document.getElementById("headline").textContent =
-          f && f.enabled ? f.feature_state_value : "Build your startup faster";
+    if (typeof flagsmith === "undefined") {
+      document.getElementById("headline").textContent = A;
+      debug.textContent = "SDK failed to load";
+    } else {
+      flagsmith.init({
+        environmentID: "hTUke6CjBWEV5owZULZKoM",
+        identity: uid,
+        enableEvents: true
+      }).then(() => {
+        const flag = flagsmith.getExperimentFlag("hero_headline");
+        const isB = flag && flag.variant === "Variant_1";
+        document.getElementById("headline").textContent = isB ? B : A;
+        debug.textContent = "variant: " + (flag ? flag.variant : "none");
+      }).catch(e => {
+        document.getElementById("headline").textContent = A;
+        debug.textContent = "Error: " + e;
       });
+    }
 
-    document.getElementById("cta").onclick = () => alert("Signed up!");
+    document.getElementById("cta").onclick = () => {
+      if (typeof flagsmith !== "undefined") flagsmith.trackEvent("signup_click");
+      alert("Signed up!");
+    };
   </script>
 </body>
 </html>
