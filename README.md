@@ -1,9 +1,18 @@
 # ResumeNest: Headline A/B Test with Flagsmith
 
-ResumeNest is a demo landing page for a free resume builder for students and freshers (30 days free). I used **Flagsmith Experimentation** to run a real A/B test on its headline.
+ResumeNest is a free resume builder for students and freshers (30 days free). It is a demo product I built for the Toggle Wars hackathon, and I used **Flagsmith Experimentation** to run a real A/B test on its landing page headline.
 
 **Live app:** https://eishu0607-cmd.github.io/Togglewar-app/
 **Hackathon:** Toggle Wars, Track 01 (Test Something Real)
+
+## What the app does
+
+1. A visitor lands on the ResumeNest landing page and sees one of two headlines.
+2. They click **Sign Up Free**.
+3. The page opens a working **resume builder**. The visitor enters their name, education, skills, projects and achievements, and sees a live resume preview.
+4. They download the resume as a PDF with the **Download PDF** button.
+
+There is no login and no server. The visitor's details stay in their own browser. No real accounts are created.
 
 ## The experiment
 
@@ -29,7 +38,8 @@ ResumeNest is a demo landing page for a free resume builder for students and fre
 2. The Flagsmith JavaScript SDK starts with `enableEvents: true` and that ID.
 3. `getExperimentFlag("hero_headline")` serves the headline and records an exposure.
 4. Clicking any **Sign Up Free** button sends `trackEvent("signup_click")`.
-5. A small box confirms the "sign up". It is a demo, so no real account is created.
+5. The page then switches to the resume builder, which runs entirely in the browser. The builder is part of the same page, so the click event is sent before anything changes.
+6. **Download PDF** uses the browser's print function to save the resume as a PDF.
 
 The whole app is one file, `index.html`, with no build step.
 
